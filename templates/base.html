@@ -1,0 +1,47 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Stocks</title>
+        {% else %}
+        <title>Welcome to StockApp</title>
+        {% endif %}
+        <style>
+           table {
+            width: 100%; /* Ширина таблицы */
+            border-collapse: collapse; /* Убираем двойные линии между ячейками */
+           }
+           td, th {
+            padding: 3px; /* Поля вокруг содержимого таблицы */
+            border: 1px solid #000; /* Параметры рамки */
+           }
+           th {
+            background: #afd792; /* Цвет фона */
+            color: #333;  /* Цвет текста */
+           }
+           tbody tr:hover {
+            background: #f3bd48; /* Цвет фона при наведении */
+            color: #fff; /* Цвет текста при наведении */
+           }
+        </style>
+    </head>
+    <body>
+        <div>
+            StockApp:
+            <a href="{{ url_for('hello_world') }}">Home</a>
+            <!-- <a href="/index">Home</a> -->
+            <!-- <a href="/login">Login</a> -->
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>

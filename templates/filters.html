@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+  <body>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+
+        <form action="" method="post">
+            <p>
+    	    <label for="symbols"> Symbols for company name </label>
+    	    <input type="text" name="symbols">
+    	</p>
+    	<p>
+    	    <label for="date_start"> start date </label>
+    	    <input type="text" name="date_start">
+    	</p>
+    	<p>
+    	    <input type="submit">
+    	</p>
+        </form>
+
+    <h1>Hello, read my list!</h1>
+    <ul>
+      {% for item in list_of_dict %}
+        <li>json is : {{ item }}</li>
+      {% endfor %}
+    </ul>
+    <h1>********* End my list! ******* </h1>
+  </body>
+</html>

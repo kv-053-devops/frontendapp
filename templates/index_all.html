@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>{{title}} - v2</title>
+  </head>
+  <body>
+    <h1>Hello, read my list!</h1>
+    <ul>
+      {% for item in list_of_dict %}
+        <!-- <li>json is : {{ item }}</li> -->
+        <li>
+        {% for j in values %}
+           {{ j }} = {{ item[j] }} ; 
+        {% endfor %}
+        </li>
+      {% endfor %}
+    </ul>
+    <h1>********* End my list! ******* </h1>
+  </body>
+</html>

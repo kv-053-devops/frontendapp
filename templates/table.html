@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>{{title}} - v2</title>
+
+    <style>
+       table {
+        width: 100%; /* Ширина таблицы */
+        border-collapse: collapse; /* Убираем двойные линии между ячейками */
+       }
+       td, th {
+        padding: 3px; /* Поля вокруг содержимого таблицы */
+        border: 1px solid #000; /* Параметры рамки */
+       }
+       th {
+        background: #afd792; /* Цвет фона */
+        color: #333;  /* Цвет текста */
+       }
+       tbody tr:hover {
+        background: #f3bd48; /* Цвет фона при наведении */
+        color: #fff; /* Цвет текста при наведении */
+       }
+    </style>
+  </head>
+  <body>
+        <h1>Hello, read my list!</h1>
+    <table>
+     <tr>
+      {% for head in values %}
+         <th>{{ head }}</th>
+      {% endfor %}
+     </tr>
+     <tbody>
+         {% for item in list_of_dict %}
+        <tr>
+          {% for j in values %}
+             <td>{{ item[j] }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+    <h1>********* End my list! ******* </h1>
+  </body>
+</html>

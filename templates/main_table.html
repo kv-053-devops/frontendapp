@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <table>
+   <tr>
+    {% for head in values %}
+       <th>{{ head }}</th>
+    {% endfor %}
+   </tr>
+   <tbody>
+       {% for item in list_of_dict %}
+      <tr>
+        {% for j in values %}
+           <td>{{ item[j] }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+   </tbody>
+  </table>
+    <h1>Sign In</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.symbols.label }}<br>
+            {{ form.symbols(size=8) }}<br>
+            {% for error in form.symbols.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.range.label }}<br>
+            {{ form.range(size=4) }}<br>
+            {% for error in form.range.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.interval.label }}<br>
+            {{ form.interval(size=6) }}<br>
+        </p>
+        <p>{{ form.submit_chart() }}</p>
+        <p>{{ form.submit_save() }}</p>
+    </form>
+{% endblock %}
