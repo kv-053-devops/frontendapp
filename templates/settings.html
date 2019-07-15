@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="" > Setting of companies for StockApp: {{start_symbols}} </h1>
+    <form class="form__item_inline" action="" method="post">
+        {{ form.hidden_tag() }}
+        <p class="form__item_inline" >
+            {{ form.symbols_list.label }}
+            {{ form.symbols_list(size=50) }}
+            {% for error in form.symbols_list.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="form__item_inline" >{{ form.submit_setting_save() }}</p>
+    </form>
+
+{% endblock %}

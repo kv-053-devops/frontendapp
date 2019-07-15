@@ -38,10 +38,11 @@
     <body>
         <div>
             StockApp:
-            <a href="{{ url_for('hello_world') }}">Home</a>
+            <a href="{{ url_for('hello_world') }}">About</a>
+            <a href="{{ url_for('stock_app_main') }}">   Home</a>
             <!-- <a href="/index">Home</a> -->
             <!-- <a href="/login">Login</a> -->
-            <a href="{{ url_for('hello_world') }}">Settings</a>
+            <a href="{{ url_for('settings') }}">   Settings</a>
         </div>
         <hr>
         {% with messages = get_flashed_messages() %}

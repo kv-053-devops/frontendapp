@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, url_for, redirect, flash
-from forms import ChooseChart
+from forms import ChooseChart, SettingsOfCompany
 import urllib.request, json
 import requests
 
@@ -87,6 +87,25 @@ def stock_app_main():
                 list_of_dict=list_of_dict,  values = needed_values, additional_data = additional_data, stock_data = data)
            # return redirect(url_for('draw_charts', userdata=dict(symbol=form.symbols.data, interval=form.interval.data, range=form.range.data) ))
 
+@app.route('/settings', methods=('GET', 'POST'))
+def settings():
+   form = SettingsOfCompany()
+   global list_of_symbol_default
+
+   str_of_symbols = ""
+   for symbol in list_of_symbol_default: #join to do
+       str_of_symbols += (str(symbol)+",")
+   # form.symbols_list.data = str_of_symbols[:-1:] # not working
+   if request.method == 'GET':
+       return render_template('settings.html', form = form , title='StockApp', start_symbols = str_of_symbols[:-1:])
+   elif request.method == 'POST':
+       print(form.symbols_list, list_of_symbol_default)
+       if form.validate():
+           list_of_symbol_default = form.symbols_list.data.replace(',', ' ').split()
+           print(form.symbols_list.data, list_of_symbol_default)
+           return redirect( url_for('stock_app_main') )
+       else:
+           return render_template('settings.html', form = form , title='StockApp')
 
 
 @app.route('/hello')
