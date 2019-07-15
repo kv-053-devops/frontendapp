@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+ <head>
+<style>
+    #chart-container{
+       height: 500px;
+    }
+</style>
+<script type="text/javascript" src="static/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="static/fusioncharts.js"></script>
+<script type="text/javascript" src="static/fusioncharts.theme.fusion.js"></script>
+
+    <meta charset="utf-8">
+    <title>test charts </title>
+  </head>
+  <body>
+test chart
+
+<div id="chart-container"></div>
+<script>
+$(function(){
+   $.getJSON( "https://api.myjson.com/bins/lbvzz", function( stock_data ) {
+
+const dataSource = {
+  chart: {
+    caption: stock_data.symbol,
+    yaxisname: "Price USD",
+    subcaption: stock_data.company,
+    numbersuffix: " $",
+    rotatelabels: "1",
+    setadaptiveymin: "1",
+    theme: "fusion"
+  },
+  data:[
+    {% for item in stock_data.date_time %}
+        { label:  "{{item}}" , value: "{{stock_data.date_time[item]}}"},
+    {% endfor %}
+  ]
+}
+
+FusionCharts.ready(function() {
+  var myChart = new FusionCharts({
+    type: "line",
+    renderAt: "chart-container",
+    width: "100%",
+    height: "100%",
+    dataFormat: "json",
+    dataSource
+  }).render();
+});
+
+     }
+   )
+});
+</script>
+  </body>
+</html>

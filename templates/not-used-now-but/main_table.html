@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <table>
+   <tr>
+    {% for head in values %}
+       <th>{{ head }}</th>
+    {% endfor %}
+   </tr>
+   <tbody>
+       {% for item in list_of_dict %}
+      <tr>
+        {% for j in values %}
+           <td>{{ item[j] }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+   </tbody>
+  </table>
+    <h2 class="form__item_inline" >Choose: </h1>
+    <form class="form__item_inline" action="" method="post">
+        {{ form.hidden_tag() }}
+        <p class="form__item_inline" >
+            {{ form.symbols.label }}
+            {{ form.symbols(size=8) }}
+            {% for error in form.symbols.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="form__item_inline" >
+            {{ form.range.label }}
+            {{ form.range(size=2) }}
+            {% for error in form.range.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="form__item_inline" >
+            {{ form.interval.label }}
+            {{ form.interval }}
+        </p>
+        <p class="form__item_inline" >{{ form.submit_chart() }}</p>
+        <!-- <p class="form__item_inline" >{{ form.submit_save() }}</p> -->
+    </form>
+    <div>
+      {% if additional_data %}
+        Input data = {{ additional_data }}<br>
+        
+      {% endif %}
+    </div>
+{% endblock %}

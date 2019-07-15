@@ -14,13 +14,13 @@ params
 ##  symbol
 
 arg
-##	price - цена одной акции 
-##	price_open - цена одной акции на момент открытия сессии ( 9:30 
+##	price - цена одной акции
+##	price_open - цена одной акции на момент открытия сессии ( 9:30
 ##	day_high - максимальная цена, на которой была закрыта сделка
 ##	day_low - минимальная цена, на которой была закрыта сделка
-##	market_cap - рыночная капитализация - общая рыночная стоимость всех выпущенных публичной компанией акций 
-##	shares - количество выпущенных акций 
-##	volume - объем торгуемых акций 
+##	market_cap - рыночная капитализация - общая рыночная стоимость всех выпущенных публичной компанией акций
+##	shares - количество выпущенных акций
+##	volume - объем торгуемых акций
 
 
 1.	MSFT - Microsoft
@@ -79,7 +79,7 @@ https://api.worldtradingdata.com/api/v1/stock?symbol=JPM&api_token=5An0fULcvr724
 https://api.worldtradingdata.com/api/v1/stock?symbol=JPM&api_token=MOMTo8JMnz1nM83wWeExwGFer9kndmyJD6LFyOF0rNkVixUTSzOj45Wkhvf0
 https://api.worldtradingdata.com/api/v1/stock?symbol=JPM&api_token=a5bU3AxoLKNcgBMMSqVJoLRYvPhyw6l2J55ucjjk2GQ9sTxT0t7YI8FdkxBo
 
-9.	XOM - Exxon 
+9.	XOM - Exxon
 https://api.worldtradingdata.com/api/v1/stock?symbol=XOM&api_token=C5He7fxdnYvFGH2rJHRV47XRzYVjUxkdFPRaVM9ILMvlsoSAmqbggY3VbPgG
 https://api.worldtradingdata.com/api/v1/stock?symbol=XOM&api_token=Ok83lRmuDMCP3LhCtUOdMaA5K6eRF3BAdCYWrg4kEva8Lh0GkdwEAOcQqenJ
 https://api.worldtradingdata.com/api/v1/stock?symbol=XOM&api_token=5An0fULcvr72470qYP63zcbgnFF0deBqQEl0h7tGPtXylbC7SjMxiso4hxwX
@@ -142,19 +142,19 @@ a5bU3AxoLKNcgBMMSqVJoLRYvPhyw6l2J55ucjjk2GQ9sTxT0t7YI8FdkxBo
 
 params
 ##	 symbol - сокращенное название компании
-##	 api_token - ключ 
-##	 interval - интервал в минутах
-##	 range - количество дней в возвращаемом запросе 
+##	 api_token - ключ
+##	 interval - интервал в минутах (1, 2, 5, 60)
+##	 range - количество дней в возвращаемом запросе (1..30)
 
 arg
 ##	 open - с какой ценой вышла на рынок ( начало сессии в 9:30 по utc -04:00 NY )
 ##	 close - с какой ценой закрылась ( сессия закрывается в 15:30 по utc -04:00 NY )
 ##	 high - максимальная цена акции
 ##	 low - минимальная цена акции
-##	 volume - обьем торгуемых акций 
+##	 volume - обьем торгуемых акций
 
 
-Пример запроса 
+Пример запроса
 
 
-https://intraday.worldtradingdata.com/api/v1/intraday?symbol=MSFT&interval=1&range=1&api_token=C5He7fxdnYvFGH2rJHRV47XRzYVjUxkdFPRaVM9ILMvlsoSAmqbggY3VbPgG
+https://intraday.worldtradingdata.com/api/v1/intraday?symbol=MSFT&interval=1&range=1&api_token=a5bU3AxoLKNcgBMMSqVJoLRYvPhyw6l2J55ucjjk2GQ9sTxT0t7YI8FdkxBo

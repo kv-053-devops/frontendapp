@@ -1,16 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
-
-# class LoginForm(FlaskForm):
-    # username = StringField('Username', validators=[DataRequired()])
-    # password = PasswordField('Password', validators=[DataRequired()])
-    # remember_me = BooleanField('Remember Me')
-    # submit = SubmitField('Sign In')
+from wtforms import StringField, SubmitField, IntegerField, RadioField, SelectField
+from wtforms.validators import DataRequired, NumberRange, Length
 
 class ChooseChart(FlaskForm):
-    symbols = StringField('Symbols ', validators=[DataRequired()])
-    range = StringField('Range (1..30)', validators=[DataRequired()])
-    interval = StringField('Interval, minutes:')
+    symbols = StringField('Symbol ', validators=[DataRequired(), Length(min=1, max=8)])
+    range = IntegerField('Range,(1..30)', validators=[DataRequired(),NumberRange(min=1, max=30, message='must(1..30)')])
+    interval = SelectField('Interval, minutes (2, 5, 15 or 60):',
+            choices = [('2', '2 minutes'), ('5', '5 minutes'), ('15', '15 minutes'), ('60', '60 minutes')])
     submit_chart = SubmitField('Draw a chart')
-    submit_save = SubmitField('Save')
+    submit_save = SubmitField('Save') ######### ????

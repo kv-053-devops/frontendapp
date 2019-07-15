@@ -6,6 +6,12 @@
         <title>Welcome to StockApp</title>
         {% endif %}
         <style>
+            #chart-container{
+               height: 500px;
+            }
+            g[class$='creditgroup'] {
+               display:none !important;
+            }
            table {
             width: 100%; /* Ширина таблицы */
             border-collapse: collapse; /* Убираем двойные линии между ячейками */
@@ -22,7 +28,12 @@
             background: #f3bd48; /* Цвет фона при наведении */
             color: #fff; /* Цвет текста при наведении */
            }
+           .form__item_inline{
+             display:inline-block;
+           }
         </style>
+        <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+        <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
     </head>
     <body>
         <div>
@@ -30,7 +41,7 @@
             <a href="{{ url_for('hello_world') }}">Home</a>
             <!-- <a href="/index">Home</a> -->
             <!-- <a href="/login">Login</a> -->
-            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('hello_world') }}">Settings</a>
         </div>
         <hr>
         {% with messages = get_flashed_messages() %}

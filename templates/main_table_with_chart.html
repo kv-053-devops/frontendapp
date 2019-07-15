@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <table>
+   <tr>
+    {% for head in values %}
+       <th>{{ head }}</th>
+    {% endfor %}
+   </tr>
+   <tbody>
+       {% for item in list_of_dict %}
+      <tr>
+        {% for j in values %}
+           <td>{{ item[j] }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+   </tbody>
+  </table>
+    <h2 class="form__item_inline" >Choose: </h1>
+    <form class="form__item_inline" action="" method="post">
+        {{ form.hidden_tag() }}
+        <p class="form__item_inline" >
+            {{ form.symbols.label }}
+            {{ form.symbols(size=8) }}
+            {% for error in form.symbols.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="form__item_inline" >
+            {{ form.range.label }}
+            {{ form.range(size=2) }}
+            {% for error in form.range.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="form__item_inline" >
+            {{ form.interval.label }}
+            {{ form.interval }}
+        </p>
+        <p class="form__item_inline" >{{ form.submit_chart() }}</p>
+        <!-- <p class="form__item_inline" >{{ form.submit_save() }}</p> -->
+    </form>
+    <div>
+      {% if additional_data %}
+        <!-- Input data = {{ additional_data }}<br> -->
+
+        <div id="chart-container"></div>
+        <script>
+        console.log("test");
+        const dataSource = {
+          chart: {
+            caption: "{{stock_data.symbol}}",
+            yaxisname: "Price, USD",
+            subcaption: "High and Low",
+            drawcrossline: "1",
+            numbersuffix: " $",
+            setadaptiveymin: "1",
+            plottooltext: "$seriesName in $label : <b>$dataValue</b>",
+            theme: "fusion"
+          },
+          categories: [
+            {
+              category: [
+                {% for item in stock_data.intraday %}
+                    { label:  "{{item}}" },
+                {% endfor %}
+              ]
+            }
+          ],
+          dataset: [
+            {
+              seriesname: "High",
+              data: [
+                {% for item in stock_data.intraday %}
+                    { value: "{{stock_data.intraday[item].high}}"},
+                {% endfor %}
+              ]
+            },
+            {
+              seriesname: "Low",
+              data: [
+                {% for item in stock_data.intraday %}
+                    { value: "{{stock_data.intraday[item].low}}"},
+                {% endfor %}
+              ]
+            }
+          ]
+        };
+
+        console.log(dataSource);
+        //
+
+        FusionCharts.ready(function() {
+          var myChart = new FusionCharts({
+            type: "msarea",
+            renderAt: "chart-container",
+            width: "100%",
+            height: "100%",
+            dataFormat: "json",
+            dataSource
+          }).render();
+        });
+
+
+        </script>
+      {% endif %}
+    </div>
+{% endblock %}
