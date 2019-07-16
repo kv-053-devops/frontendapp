@@ -11,6 +11,7 @@ app_run_address = 'localhost'  if len(sys.argv) < 2 else sys.argv[1]
 app_run_port = '5001'  if len(sys.argv) < 3 else sys.argv[2]
 app_query_url = "http://127.0.0.1:5002/logic/query_data" if len(sys.argv) < 4 else sys.argv[3]
 app_settings_url = "http://127.0.0.1:5004/start" if len(sys.argv) < 5 else sys.argv[4]
+app_settings_save_url  = "http://127.0.0.1:5004/save"
 app_is_cheat = True if  len(sys.argv) == 2 and sys.argv[1] == 'localhost' else False
 
 app.config['SECRET_KEY'] = 'you-will-never-guess'
@@ -117,12 +118,14 @@ def settings():
        str_of_symbols += (str(symbol)+",")
    # form.symbols_list.data = str_of_symbols[:-1:] # not working
    if request.method == 'GET':
+       res = requests.get(app_settings_url)
        return render_template('settings.html', form = form , title='StockApp', start_symbols = str_of_symbols[:-1:])
    elif request.method == 'POST':
        print(form.symbols_list, list_of_symbol_default)
        if form.validate():
            list_of_symbol_default = form.symbols_list.data.replace(',', ' ').split()
            print(form.symbols_list.data, list_of_symbol_default)
+           res = requests.put(app_settings_save_url, json = {"symbol":form.symbols_list.data})
            return redirect( url_for('stock_app_main') )
        else:
            return render_template('settings.html', form = form , title='StockApp')
