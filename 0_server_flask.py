@@ -1,14 +1,22 @@
 from flask import Flask, request, render_template, url_for, redirect, flash
 from forms import ChooseChart, SettingsOfCompany
 import urllib.request, json
-import requests
+import requests, sys
 
 app = Flask(__name__)
+
+### run : python3 <app> localhost 5001 http://127.0.0.1:5002/logic/query_data http://127.0.0.1:5004/start
+# if run python3 <app> localhost - it is a cheat-mod (queires to worldtradingdata )
+app_run_address = 'localhost'  if len(sys.argv) < 2 else sys.argv[1]
+app_run_port = '5001'  if len(sys.argv) < 3 else sys.argv[2]
+app_query_url = "http://127.0.0.1:5002/logic/query_data" if len(sys.argv) < 4 else sys.argv[3]
+app_settings_url = "http://127.0.0.1:5004/start" if len(sys.argv) < 5 else sys.argv[4]
+app_is_cheat = True if  len(sys.argv) == 2 and sys.argv[1] == 'localhost' else False
 
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 needed_values = ['symbol', 'name', 'price', 'price_open','day_high', 'day_low',  'market_cap', 'volume']
 
-list_of_symbol_default = ["V","JNJ","AAPL","FB","MSFT","AMZN","GOOGL"]
+list_of_symbol_default = ["V","JNJ","AAPL","FB","MSFT"]
 list_of_dict = []
 additional_data = None
 
@@ -22,15 +30,21 @@ def receive_data_for_table( list_of_symbol=None ):
         for symbol in list_of_symbol:
             url_full_path += (str(symbol)+",")
         url_full_path = url_full_path[:-1:]+"&api_token=a5bU3AxoLKNcgBMMSqVJoLRYvPhyw6l2J55ucjjk2GQ9sTxT0t7YI8FdkxBo"
-        with urllib.request.urlopen(url_full_path) as url:
-            data = json.loads(url.read().decode())
-        print (url_full_path, data)
-    except:
+        if app_is_cheat:
+            with urllib.request.urlopen(url_full_path) as url:
+                data = json.loads(url.read().decode())
+        else:
+            data_loaded = {"symbols":list_of_symbol_default,"query_type":"realtime"}
+            print("data_loaded=",type(json.dumps(data_loaded)))
+            post_req = requests.post(app_query_url, json=data_loaded)
+            data = post_req.json()
+    except Exception as err:
+        print(err)
         url_full_path = path_online_data+params_online_data_default
         print("Bad data for request. Use default url: " + url_full_path)
         with urllib.request.urlopen(url_full_path) as url:
             data = json.loads(url.read().decode())
-        print(data)
+    print (url_full_path, data)
     return data.get('data',[])
 
 
@@ -45,11 +59,16 @@ def receive_data_for_charts(userdata=None):
         userdata["interval"] = str(userdata.get('interval', "60"))
         userdata["range"] = str(userdata.get('range', "30"))
         userdata["api_token"] = str(userdata.get("api_token", "a5bU3AxoLKNcgBMMSqVJoLRYvPhyw6l2J55ucjjk2GQ9sTxT0t7YI8FdkxBo"))
-        # resp = requests.get(path_intraday, data=userdata)
-        # data = resp.json()
         url_full_path=path_intraday+"?symbol="+userdata["symbol"]+"&interval="+userdata["interval"]+"&range="+userdata["range"]+"&api_token="+userdata["api_token"]
-        with urllib.request.urlopen(url_full_path) as url:
-            data = json.loads(url.read().decode())
+
+        if app_is_cheat:
+            with urllib.request.urlopen(url_full_path) as url:
+                data = json.loads(url.read().decode())
+        else:
+            data_loaded = {"symbols":userdata["symbol"],"query_type":"intraday", "day_range":userdata["range"],"time_interval":userdata["interval"]}
+            print("data_loaded=",type(json.dumps(data_loaded)))
+            post_req = requests.post(app_query_url, json=data_loaded)
+            data = post_req.json()
         print (url_full_path, data)
     except:
         print("Bad data for request. Use default url: " + path_intraday+params_intraday)
@@ -77,6 +96,7 @@ def stock_app_main():
    elif request.method == 'POST':
        if form.validate() == False:
            # flash('Please, All fields are required.')
+           additional_data = None
            return render_template('main_table_with_chart.html', form = form , title='StockApp',
                     list_of_dict=list_of_dict,  values = needed_values, additional_data = additional_data)
        else:
@@ -135,4 +155,5 @@ def return_all_jsons():
 
 
 if __name__ == '__main__':
-    app.run()
+    print(app_query_url, app_is_cheat)
+    app.run( host=app_run_address, port=app_run_port )
