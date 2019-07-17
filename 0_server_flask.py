@@ -78,6 +78,18 @@ def receive_data_for_charts(userdata=None):
         print(data)
     return data
 
+def receive_symbol_list_from_settings_db():
+    global list_of_symbol_default
+    try:
+        res = requests.get(app_settings_url)
+        str_of_symbols=json.loads(res.text)[0].get("symbol")
+        list_of_symbol_default = str_of_symbols.replace(',', ' ').split()
+        print("Success reading from db: ",str_of_symbols, list_of_symbol_default)
+    except Exception as err:
+        print("Using default value. Error during restoring from  ConfigMGR:", err, list_of_symbol_default)
+    return
+
+
 @app.route('/api/charts/', methods=['post', 'get'])
 def draw_charts( userdata=None ): # not working parameters
     data = receive_data_for_charts( userdata=userdata )
@@ -89,6 +101,7 @@ def stock_app_main():
    form = ChooseChart()
    global additional_data, list_of_dict
 
+   receive_symbol_list_from_settings_db()
    list_of_dict = receive_data_for_table()
    if request.method == 'GET':
        additional_data = None
@@ -119,13 +132,9 @@ def settings():
    # form.symbols_list.data = str_of_symbols[:-1:] # not working
    if request.method == 'GET':
        try:
-           res = requests.get(app_settings_url)
-           if isinstance(res,list):
-               str_of_symbols=res[0].get("symbol")+" "
-           elif isinstance(res,dict):
-               str_of_symbols= res.get("symbol")+" "
-           else:
-               print("unknown format data from  ConfigMGR:", res, type(res))
+           # res = requests.get(app_settings_url)
+           # str_of_symbols=json.loads(res.text)[0].get("symbol")+" "
+           pass
        except Exception as err:
            print("Error during restoring from  ConfigMGR:", err)
        return render_template('settings.html', form = form , title='StockApp', start_symbols = str_of_symbols[:-1:])
