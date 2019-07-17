@@ -120,10 +120,12 @@ def settings():
    if request.method == 'GET':
        try:
            res = requests.get(app_settings_url)
-           list_of_symbol = res["symbol"].replace(',', ' ').split()
-           str_of_symbols = ""
-           for symbol in list_of_symbol:
-               str_of_symbols += (str(symbol)+",")
+           if isinstance(res,list):
+               str_of_symbols=res[0].get("symbol")+" "
+           elif isinstance(res,dict):
+               str_of_symbols= res.get("symbol")+" "
+           else:
+               print("unknown format data from  ConfigMGR:", res, type(res))
        except Exception as err:
            print("Error during restoring from  ConfigMGR:", err)
        return render_template('settings.html', form = form , title='StockApp', start_symbols = str_of_symbols[:-1:])
