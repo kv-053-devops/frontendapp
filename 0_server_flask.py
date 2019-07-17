@@ -17,7 +17,7 @@ app_is_cheat = True if  len(sys.argv) == 2 and sys.argv[1] == 'localhost' else F
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 needed_values = ['symbol', 'name', 'price', 'price_open','day_high', 'day_low',  'market_cap', 'volume']
 
-list_of_symbol_default = ["V","JNJ","AAPL","FB","MSFT"]
+list_of_symbol_default = ["V","JNJ","WMT","PG"]
 list_of_dict = []
 additional_data = None
 
@@ -118,14 +118,24 @@ def settings():
        str_of_symbols += (str(symbol)+",")
    # form.symbols_list.data = str_of_symbols[:-1:] # not working
    if request.method == 'GET':
-       res = requests.get(app_settings_url)
+       try:
+           res = requests.get(app_settings_url)
+           list_of_symbol = res["symbol"].replace(',', ' ').split()
+           str_of_symbols = ""
+           for symbol in list_of_symbol:
+               str_of_symbols += (str(symbol)+",")
+       except Exception as err:
+           print("Error during restoring from  ConfigMGR:", err)
        return render_template('settings.html', form = form , title='StockApp', start_symbols = str_of_symbols[:-1:])
    elif request.method == 'POST':
        print(form.symbols_list, list_of_symbol_default)
        if form.validate():
            list_of_symbol_default = form.symbols_list.data.replace(',', ' ').split()
            print(form.symbols_list.data, list_of_symbol_default)
-           res = requests.put(app_settings_save_url, json = {"symbol":form.symbols_list.data})
+           try:
+               res = requests.put(app_settings_save_url, json = {"symbol":form.symbols_list.data})
+           except Exception as err:
+               print("Error during saving to ConfigMGR:", err)
            return redirect( url_for('stock_app_main') )
        else:
            return render_template('settings.html', form = form , title='StockApp')
