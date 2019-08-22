@@ -17,7 +17,7 @@ spec:
       hostname: frontendapp
       containers:
       - name: frontendapp
-        image: eu.gcr.io/PROJECTID/logicapp:CONTAINERTAG
+        image: eu.gcr.io/PROJECTID/frontendapp:CONTAINERTAG
         ports:
         - containerPort: 5001
         args: ['0.0.0.0', '5001','http://logicapp.dev.svc:5002/logic/query_data','http://cfgmanapp.dev.svc:5004/start','http://cfgmanapp.dev.svc:5004/save']
