@@ -102,7 +102,10 @@ spec:
         container('kubectl') {
          // sh "kubectl get deployments --namespace=${NAMESPACE} | grep ${APP_NAME} &&  kubectl patch deployment ${APP_NAME} --namespace=${NAMESPACE} || kubectl create deployment ${APP_NAME} --image=${IMAGE_TAG} --namespace=${NAMESPACE}"
     
-          sh "kubectl get deployments --namespace=${NAMESPACE} | grep ${APP_NAME} &&  kubectl set image deployment/${APP_NAME} ${APP_NAME}=${IMAGE_TAG}  --namespace=${NAMESPACE} --record=true  || kubectl create deployment ${APP_NAME} --image=${IMAGE_TAG} --namespace=${NAMESPACE}"
+          // sh "kubectl get deployments --namespace=${NAMESPACE} | grep ${APP_NAME} &&  kubectl set image deployment/${APP_NAME} ${APP_NAME}=${IMAGE_TAG}  --namespace=${NAMESPACE} --record=true  || kubectl create deployment ${APP_NAME} --image=${IMAGE_TAG} --namespace=${NAMESPACE}"
+         sh """sed -i "s/CONTAINERTAG/${GIT_COMMIT}/g" deployment_dev """
+         sh """sed -i "s/PROJECTID/${PROJECT}/g" deployment_dev """
+         sh "kubectl apply -f deployment_dev"		
           //sh "kubectl get pods";
          // sh "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port 80 --target-port 5001";
         }
