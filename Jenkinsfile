@@ -9,7 +9,7 @@ pipeline {
     CLUSTER_ZONE = "europe-west3-a"
     IMAGE_TAG = "eu.gcr.io/${PROJECT}/${APP_NAME}:${BUILD_NUMBER}"
     JENKINS_CRED = "${PROJECT}"
-    APP_REPO="https://github.com/kv-053-devops/queryapp.git"
+    APP_REPO="https://github.com/kv-053-devops/frontendapp.git"
     NAMESPACE="dev"
   }
 
