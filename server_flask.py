@@ -6,7 +6,7 @@ import requests, sys
 app = Flask(__name__)
 
 ### run : python3 server_flask.py 0.0.0.0 5001 http://127.0.0.1:5002/logic/query_data http://127.0.0.1:5004/start http://127.0.0.1:5004/save
-# if run python3 server_flask.py 0.0.0.0 - it is a cheat-mod (queires to worldtradingdata )
+# if run python3 server_flask.py 0.0.0.0 - it is a cheat-mod (queires to worldtradingdata ) test
 app_run_address = '0.0.0.0'  if len(sys.argv) < 2 else sys.argv[1]
 app_run_port = '5001'  if len(sys.argv) < 3 else sys.argv[2]
 app_query_url = "http://127.0.0.1:5002/logic/query_data" if len(sys.argv) < 4 else sys.argv[3]
