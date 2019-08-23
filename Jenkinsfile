@@ -107,7 +107,7 @@ spec:
          sh """sed -i "s/PROJECTID/${PROJECT}/g" deployment_dev """
          sh "kubectl apply -f deployment_dev"	
 	 // sh "kubectl get deployments --namespace=${NAMESPACE} | grep ${APP_NAME} || kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port 80 --target-port 5001 --namespace=${NAMESPACE}";
-		sh "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port 80 --target-port 5001 --namespace=${NAMESPACE}";
+	//	sh "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port 80 --target-port 5001 --namespace=${NAMESPACE}";
           //sh "kubectl get pods";
          // sh "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port 80 --target-port 5001";
         }
