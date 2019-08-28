@@ -1,9 +1,7 @@
 pipeline {
 
   environment {
-    PROJECT = "demo2-248908"
     APP_NAME = "frontendapp"
-    STORAGE_CREDS = "${PROJECT}"
     // IMAGE_TAG = "eu.gcr.io/${PROJECT}/${APP_NAME}:${BUILD_NUMBER}"
     IMAGE_TAG = "eu.gcr.io/${PROJECT}/${APP_NAME}:${GIT_COMMIT}"
     JENKINS_CRED = "${PROJECT}"
@@ -51,11 +49,23 @@ spec:
     - name: jenkins-gcr-sa-creds
       mountPath: /tmp/gcr/
       readOnly: true
+    env:
+    - name: PROJECT
+      valueFrom:
+        configMapKeyRef:
+          name: jenkins-vars
+          key: gcloud-project
   - name: kubectl
     image: gcr.io/cloud-builders/kubectl
     command:
     - cat
     tty: true
+    env:
+    - name: PROJECT
+      valueFrom:
+        configMapKeyRef:
+          name: jenkins-vars
+          key: gcloud-project
 """
 }
   }
@@ -78,7 +88,7 @@ spec:
       steps {
         container('docker') {
         //  sh "cd $WORKSPACE/repo/${APP_NAME}";
-         sh "docker build -t ${IMAGE_TAG} .";
+         sh '''docker build -t eu.gcr.io/${PROJECT}/${APP_NAME}:${GIT_COMMIT} .''';
          sh "docker images";
         }
     } 
@@ -87,7 +97,7 @@ spec:
       steps {
         container('docker') {
           sh "cat /tmp/gcr/jenkins-gcr.json | docker login -u _json_key --password-stdin https://eu.gcr.io";
-          sh "docker push ${IMAGE_TAG}";
+          sh '''docker push eu.gcr.io/${PROJECT}/${APP_NAME}:${GIT_COMMIT}''';
 			// script {
       //       docker.withRegistry("https://eu.gcr.io", "gcr:${STORAGE_CREDS}") {
       //       sh "docker push ${IMAGE_TAG}"
@@ -97,16 +107,9 @@ spec:
         stage('Deploy') {
       steps {
         container('kubectl') {
-         // sh "kubectl get deployments --namespace=${NAMESPACE} | grep ${APP_NAME} &&  kubectl patch deployment ${APP_NAME} --namespace=${NAMESPACE} || kubectl create deployment ${APP_NAME} --image=${IMAGE_TAG} --namespace=${NAMESPACE}"
-    
-          // sh "kubectl get deployments --namespace=${NAMESPACE} | grep ${APP_NAME} &&  kubectl set image deployment/${APP_NAME} ${APP_NAME}=${IMAGE_TAG}  --namespace=${NAMESPACE} --record=true  || kubectl create deployment ${APP_NAME} --image=${IMAGE_TAG} --namespace=${NAMESPACE}"
-         sh """sed -i "s/CONTAINERTAG/${GIT_COMMIT}/g" deployment_dev """
-         sh """sed -i "s/PROJECTID/${PROJECT}/g" deployment_dev """
+         sh '''sed -i -e "s/CONTAINERTAG/${GIT_COMMIT}/g" -e "s/PROJECTID/${PROJECT}/g" deployment_dev ''';
          sh "kubectl apply -f deployment_dev"	
-	 // sh "kubectl get deployments --namespace=${NAMESPACE} | grep ${APP_NAME} || kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port 80 --target-port 5001 --namespace=${NAMESPACE}";
-	//	sh "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port 80 --target-port 5001 --namespace=${NAMESPACE}";
-          //sh "kubectl get pods";
-         // sh "kubectl expose deployment ${APP_NAME} --type=LoadBalancer --port 80 --target-port 5001";
+
         }
     } 
 }
