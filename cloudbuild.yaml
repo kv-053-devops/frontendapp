@@ -1,0 +1,25 @@
+steps:
+# This step runs the unit tests on the app
+- name: 'python:3.6-alpine'
+  id: Test
+  entrypoint: /bin/sh
+  args:
+  - -c
+  - 'pip3 install -r ./requirements.txt '
+  # - 'python3 unit_test.py -v'
+
+# This step builds the container image.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Build Docker Image
+  args:
+  - 'build'
+  - '-t'
+  - 'eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA'
+  - '.'
+
+# This step pushes the image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  id: Push Docker Image to c-registry
+  args:
+  - 'push'
+  - 'eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA'
