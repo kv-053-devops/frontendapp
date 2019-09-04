@@ -1,0 +1,21 @@
+{
+  "application": "yourspinnakerapplicationname",
+  "pipelines": [
+    {
+      "application": "yourspinnakerapplicationname",
+      "keepWaitingPipelines": false,
+      "limitConcurrent": true,
+      "name": "Made By Armory Pipeline Templates",
+      "stages": [
+        {
+          "name": "Wait",
+          "refId": "1",
+          "requisiteStageRefIds": [],
+          "type": "wait",
+          "waitTime": 10
+        }
+      ],
+      "triggers": []
+    }
+  ]
+}
