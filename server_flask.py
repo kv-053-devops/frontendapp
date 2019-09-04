@@ -3,16 +3,25 @@ from forms import ChooseChart, SettingsOfCompany
 import urllib.request, json
 import requests, sys
 
+###
+import os
+app_run_address = os.environ.get('APP_ADDRESS', '0.0.0.0')
+app_run_port = os.environ.get('APP_PORT', '5001')
+app_query_url = os.environ.get('APP_QUERY_URL', 'http://127.0.0.1:5002/logic/query_data')
+app_settings_url = os.environ.get('APP_SETTINGS_URL', 'http://127.0.0.1:5004/start')
+app_settings_save_url  = os.environ.get('APP_SETTINGS_SAVE_URL', 'http://127.0.0.1:5004/save')
+app_is_cheat = os.environ.get('APP_IS_CHEAT', False) 
+
 app = Flask(__name__)
 
 ### run : python3 server_flask.py 0.0.0.0 5001 http://127.0.0.1:5002/logic/query_data http://127.0.0.1:5004/start http://127.0.0.1:5004/save
 # if run python3 server_flask.py 0.0.0.0 - it is a cheat-mod (queires to worldtradingdata ) test
-app_run_address = '0.0.0.0'  if len(sys.argv) < 2 else sys.argv[1]
-app_run_port = '5001'  if len(sys.argv) < 3 else sys.argv[2]
-app_query_url = "http://127.0.0.1:5002/logic/query_data" if len(sys.argv) < 4 else sys.argv[3]
-app_settings_url = "http://127.0.0.1:5004/start" if len(sys.argv) < 5 else sys.argv[4]
-app_settings_save_url  = "http://127.0.0.1:5004/save"  if len(sys.argv) < 6 else sys.argv[5]
-app_is_cheat = True if  len(sys.argv) <= 2 and app_run_address == '0.0.0.0' else False
+# app_run_address = '0.0.0.0'  if len(sys.argv) < 2 else sys.argv[1]
+# app_run_port = '5001'  if len(sys.argv) < 3 else sys.argv[2]
+# app_query_url = "http://127.0.0.1:5002/logic/query_data" if len(sys.argv) < 4 else sys.argv[3]
+# app_settings_url = "http://127.0.0.1:5004/start" if len(sys.argv) < 5 else sys.argv[4]
+# app_settings_save_url  = "http://127.0.0.1:5004/save"  if len(sys.argv) < 6 else sys.argv[5]
+# app_is_cheat = True if  len(sys.argv) <= 2 and app_run_address == '0.0.0.0' else False
 
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 needed_values = ['symbol', 'name', 'price', 'price_open','day_high', 'day_low',  'market_cap', 'volume']
