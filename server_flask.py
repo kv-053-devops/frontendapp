@@ -10,7 +10,8 @@ app_run_port = os.environ.get('APP_PORT', '5001')
 app_query_url = os.environ.get('APP_QUERY_URL', 'http://127.0.0.1:5002/logic/query_data')
 app_settings_url = os.environ.get('APP_SETTINGS_URL', 'http://127.0.0.1:5004/start')
 app_settings_save_url  = os.environ.get('APP_SETTINGS_SAVE_URL', 'http://127.0.0.1:5004/save')
-app_is_cheat = os.environ.get('APP_IS_CHEAT', False) 
+# app_is_cheat = os.environ.get('APP_IS_CHEAT', False) 
+app_is_cheat =  'APP_IS_CHEAT' in os.environ
 
 app = Flask(__name__)
 
