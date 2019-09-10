@@ -23,3 +23,9 @@ steps:
   args:
   - 'push'
   - 'eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA'
+  
+#file for bucket
+artifacts:
+  objects:
+    location: 'gs://$PROJECT_ID-spinnaker-conf/$PROJECT_ID/'
+    paths: ['kub_dev.yaml', 'kub_prod.yaml']
