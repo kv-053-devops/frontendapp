@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontendapp
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontendapp
+  template:
+    metadata:
+      labels:
+        app: frontendapp
+    spec:
+      hostname: frontendapp
+      containers:
+      - name: frontendapp
+        image: eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA
+        ports:
+        - containerPort: 5001
+        args: ['0.0.0.0', '5001','http://logicapp.dev.svc:5002/logic/query_data','http://cfgmanapp.dev.svc:5004/start','http://cfgmanapp.dev.svc:5004/save']
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontendapp
+  labels:
+    app: frontendapp
+  namespace: prod
+spec:
+  ports:
+  - port: 80
+    targetPort: 5001
+  selector:
+    app: frontendapp
+  type: LoadBalancer
+---
