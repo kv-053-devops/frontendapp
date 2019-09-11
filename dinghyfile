@@ -1,8 +1,8 @@
 {
-  "application": "yourspinnakerapplicationname",
+  "application": "frontendapp",
   "pipelines": [
     {
-      "application": "yourspinnakerapplicationname",
+      "application": "frontendapp",
       "keepWaitingPipelines": false,
       "limitConcurrent": true,
       "name": "Made By Armory Pipeline Templates",
