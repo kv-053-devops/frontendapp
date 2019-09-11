@@ -1,5 +1,6 @@
 {
   "application": "frontendapp",
+  
   "pipelines": [
     {
       "application": "frontendapp",
