@@ -25,20 +25,18 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: frontendapp-env-vars
-              key: frontendapp_app_query_url
+              key: app_query_url
         - name: APP_SETTINGS_URL
           valueFrom:
             configMapKeyRef:
               name: frontendapp-env-vars
-              key: frontendapp_app_settings_url
+              key: app_settings_url
         - name: APP_SETTINGS_SAVE_URL
           valueFrom:
             configMapKeyRef:
               name: frontendapp-env-vars
-              key: frontendapp_app_settings_save_url
+              key: app_settings_save_url
       restartPolicy: Always
-#         args: ['0.0.0.0', '5001','http://logicapp.dev.svc:5002/logic/query_data','http://cfgmanapp.dev.svc:5004/start','http://cfgmanapp.dev.svc:5004/save']
-#       restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
