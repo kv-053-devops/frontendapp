@@ -7,7 +7,7 @@ steps:
   - -c
   - 'apk update'
   - 'apk add libpq-dev'
-  - ' python unit_test.py -v'
+  - 'python unit_test.py -v'
 
 # This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
@@ -29,4 +29,4 @@ steps:
   id: Push dev K8 manifest to GS bucket
   args: ['cp','ready_kub_dev.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_dev.yaml']
   
-  images: ['eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA']
+images: ['eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA']
