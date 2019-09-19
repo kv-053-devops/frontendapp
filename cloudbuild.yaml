@@ -5,8 +5,9 @@ steps:
   entrypoint: /bin/sh
   args:
   - -c
-  - 'pip install -r ./requirements.txt && python unit_test.py -v'
-# - 'python3 unit_test.py -v'
+  - 'apk update'
+  - 'apk add libpq-dev'
+  - ' python unit_test.py -v'
 
 # This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
@@ -17,13 +18,6 @@ steps:
   - 'eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA'
   - '.'
 
-# This step pushes the image to Container Registry
-- name: 'gcr.io/cloud-builders/docker'
-  id: Push Docker Image to c-registry
-  args:
-  - 'push'
-  - 'eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA'
-  
 - name: 'comarada/envsubst'
   id: Prepare dev enviroment file
   args: ['kub_dev.yaml']
@@ -35,3 +29,4 @@ steps:
   id: Push dev K8 manifest to GS bucket
   args: ['cp','ready_kub_dev.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_dev.yaml']
   
+  images: ['eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA']
