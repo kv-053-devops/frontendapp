@@ -29,4 +29,7 @@ steps:
   id: Push dev K8 manifest to GS bucket
   args: ['cp','ready_kub_dev.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_dev.yaml']
   
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['spin_job.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/spin_job.yaml']
+  
 images: ['eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA']
