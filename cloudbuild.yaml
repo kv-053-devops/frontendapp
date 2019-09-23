@@ -32,6 +32,6 @@ steps:
 artifacts:
   objects:
     location: 'gs://$PROJECT_ID-spinnaker-conf/$PROJECT_ID/'
-    paths: ['spin_job.yaml', 'spin_job.yaml']
+    paths: ['spin_job.yaml']
   
 images: ['eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA']
