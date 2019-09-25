@@ -52,14 +52,4 @@ spec:
   selector:
     app: frontendapp
   type: LoadBalancer
----
-apiVersion: v1
-data:
-  script.sh: |-
-   status_code=$(curl --write-out %{http_code} --silent http://frontendapp.dev.svc)
-   if [[ "$status_code" -ne 200 ]] ; then
-   echo SPINNAKER_PROPERTY_RELEASE=Success
-kind: ConfigMap
-metadata:
-  name: script-configmap
-  namespace: dev
+
