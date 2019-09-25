@@ -36,13 +36,6 @@ spec:
             configMapKeyRef:
               name: frontendapp-env-vars
               key: app_settings_save_url
-      - name: test-a
-        image: tutum/curl
-        - command:
-            - sh
-            - status_code=$(curl --write-out %{http_code} --silent http://frontendapp.dev.svc)
-            - if [[ "$status_code" -ne 200 ]] ; then
-            - echo SPINNAKER_PROPERTY_RELEASE=Success
       restartPolicy: Always
 ---
 apiVersion: v1
