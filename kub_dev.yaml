@@ -52,5 +52,3 @@ spec:
   selector:
     app: frontendapp
   type: LoadBalance
- 
-
