@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontendapp
-  namespace: prod
+  namespace: dev
 spec:
   replicas: 1
   selector:
@@ -20,7 +20,22 @@ spec:
         image: eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA
         ports:
         - containerPort: 5001
-        args: ['0.0.0.0', '5001','http://logicapp.dev.svc:5002/logic/query_data','http://cfgmanapp.dev.svc:5004/start','http://cfgmanapp.dev.svc:5004/save']
+        env:
+        - name: APP_QUERY_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontendapp-env-vars
+              key: app_query_url
+        - name: APP_SETTINGS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontendapp-env-vars
+              key: app_settings_url
+        - name: APP_SETTINGS_SAVE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontendapp-env-vars
+              key: app_settings_save_url
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -29,7 +44,7 @@ metadata:
   name: frontendapp
   labels:
     app: frontendapp
-  namespace: prod
+  namespace: dev
 spec:
   ports:
   - port: 80
@@ -37,4 +52,3 @@ spec:
   selector:
     app: frontendapp
   type: LoadBalancer
----
