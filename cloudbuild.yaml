@@ -20,7 +20,7 @@ steps:
 
 - name: 'comarada/envsubst'
   id: Prepare dev enviroment file
-  args: ['kub_dev.yaml']
+  args: ['kub_dev.yaml','kub_dev_main.yaml','kub_dev_canary.yaml']
   env:
     - 'PROJECT_ID=$PROJECT_ID'
     - 'SHORT_SHA=$SHORT_SHA'
@@ -28,6 +28,14 @@ steps:
 - name: 'gcr.io/cloud-builders/gsutil'
   id: Push dev K8 manifest to GS bucket
   args: ['cp','ready_kub_dev.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_dev.yaml']
+  
+- name: 'gcr.io/cloud-builders/gsutil'
+  id: Push dev K8 manifest to GS bucket
+  args: ['cp','ready_kub_dev_canary.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_dev_canary.yaml']
+  
+- name: 'gcr.io/cloud-builders/gsutil'
+  id: Push dev K8 manifest to GS bucket
+  args: ['cp','ready_kub_dev_main.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_dev_main.yaml']
   
 artifacts:
   objects:
