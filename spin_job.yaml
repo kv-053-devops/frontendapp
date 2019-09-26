@@ -1,14 +1,27 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  labels:
+    app: script-job
   name: test-a
-  namespace: dev
+  namespace: spinnaker
 spec:
+  backoffLimit: 2
   template:
     spec:
       containers:
-      - name: test-a
-        image: tutum/curl
-        command: ["/bin/sh", "-c"]
-        args: ["curl -s http://frontendapp.dev.svc |grep StockApp || echo fail"]
-      restartPolicy: OnFailure
+        - command:
+            - bash
+            - /opt/script/script.sh
+          image: tutum/curl
+          name: script
+          volumeMounts:
+            - mountPath: /opt/script
+              name: script-configmap
+              readOnly: false
+      restartPolicy: Never
+      serviceAccountName: spinnaker-service-account
+      volumes:
+        - configMap:
+            name: script-configmap
+          name: script-configmap
