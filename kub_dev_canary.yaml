@@ -6,18 +6,18 @@ metadata:
   namespace: dev
   labels:
     app: frontendapp
-    version: main
+    version:canary 
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: frontendapp
-      version: main
+      version: canary
   template:
     metadata:
       labels:
         app: frontendapp
-        version: main
+        version: canary
     spec:
       hostname: frontendapp
       containers:
@@ -49,7 +49,7 @@ metadata:
   name: frontendapp
   labels:
     app: frontendapp
-    version: main
+    version: canary
   namespace: dev
 spec:
   ports:
@@ -57,6 +57,6 @@ spec:
     targetPort: 5001
   selector:
     app: frontendapp
-    version: main
+    version: canary
   type: LoadBalancer
 ---
