@@ -2,16 +2,40 @@
   "expectedArtifacts": [
     {
       "defaultArtifact": {
-        "customKind": true,
-        "id": "4e088b05-93c6-47d2-84da-db577302b106"
-      },
-      "id": "dd8bf4ed-f0f2-4aae-b7be-5ca5c465563f",
-      "matchArtifact": {
-        "id": "cc296b6f-f5ae-4c79-ae81-1e462ba6684d",
-        "name": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/kub_dev.yaml",
+        "artifactAccount": "gcs-k8s-project-249815",
+        "id": "2551d0f3-9b4b-4a2f-a4d3-e4285f2c3f86",
+        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/ready_kub_dev.yaml",
+        "reference": "gs://k8s-project-249815-spinnaker-conf/frontendapp/ready_kub_dev.yaml",
         "type": "gcs/object"
       },
-      "useDefaultArtifact": false,
+      "displayName": "old-dingo-40",
+      "id": "c7f3ee1d-e510-4086-a356-5a73748db20d",
+      "matchArtifact": {
+        "artifactAccount": "gcs-k8s-project-249815",
+        "id": "2c4d7898-9e38-43b1-8c88-95e22be2e091",
+        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/ready_kub_dev.yaml",
+        "type": "gcs/object"
+      },
+      "useDefaultArtifact": true,
+      "usePriorArtifact": false
+    },
+    {
+      "defaultArtifact": {
+        "artifactAccount": "gcs-k8s-project-249815",
+        "id": "49b0301a-1492-4985-a620-88c32914dafd",
+        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/spin_job.yaml",
+        "reference": "gs://k8s-project-249815-spinnaker-conf/frontendapp/spin_job.yaml",
+        "type": "gcs/object"
+      },
+      "displayName": "strong-job-oksana",
+      "id": "3ae07264-9fe7-4769-9179-236e7c4e7bcb",
+      "matchArtifact": {
+        "artifactAccount": "gcs-k8s-project-249815",
+        "id": "2b9db2b2-4d09-4000-b7a8-fd209e9344ad",
+        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/spin_job.yaml",
+        "type": "gcs/object"
+      },
+      "useDefaultArtifact": true,
       "usePriorArtifact": false
     }
   ],
@@ -20,36 +44,119 @@
   "limitConcurrent": true,
   "stages": [
     {
-      "account": "default",
+      "account": "core",
       "cloudProvider": "kubernetes",
-      "manifestArtifactAccount": "gcs-gcpssproject-248014",
-      "manifestArtifactId": "dd8bf4ed-f0f2-4aae-b7be-5ca5c465563f",
+      "manifestArtifactAccount": "gcs-k8s-project-249815",
+      "manifestArtifactId": "c7f3ee1d-e510-4086-a356-5a73748db20d",
       "moniker": {
-        "app": "kubernetes"
+        "app": "frontendapp"
       },
       "name": "Deploy (Manifest)",
       "refId": "1",
-      "relationships": {
-        "loadBalancers": [],
-        "securityGroups": []
-      },
-      "requiredArtifactIds": [
-        "dd8bf4ed-f0f2-4aae-b7be-5ca5c465563f"
-      ],
       "requisiteStageRefIds": [],
+      "skipExpressionEvaluation": false,
       "source": "artifact",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
       "type": "deployManifest"
+    },
+    {
+      "account": "core",
+      "alias": "runJob",
+      "application": "frontendapp",
+      "cloudProvider": "kubernetes",
+      "consumeArtifactSource": "propertyFile",
+      "credentails": "core",
+      "manifest": {
+        "apiVersion": "batch/v1",
+        "kind": "Job",
+        "metadata": {
+          "labels": {
+            "app": "script-job"
+          },
+          "name": "test-a",
+          "namespace": "spinnaker"
+        },
+        "spec": {
+          "backoffLimit": 2,
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "bash",
+                    "/opt/script/script.sh"
+                  ],
+                  "image": "tutum/curl",
+                  "name": "script",
+                  "volumeMounts": [
+                    {
+                      "mountPath": "/opt/script",
+                      "name": "script-configmap",
+                      "readOnly": false
+                    }
+                  ]
+                }
+              ],
+              "restartPolicy": "Never",
+              "serviceAccountName": "spinnaker-service-account",
+              "volumes": [
+                {
+                  "configMap": {
+                    "name": "script-configmap"
+                  },
+                  "name": "script-configmap"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "manifestArtifactAccount": "gcs-k8s-project-249815",
+      "manifestArtifactId": "3ae07264-9fe7-4769-9179-236e7c4e7bcb",
+      "name": "Run Job (Manifest)",
+      "propertyFile": "test-a",
+      "refId": "2",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "source": "artifact",
+      "type": "runJobManifest"
+    },
+    {
+      "name": "Check Preconditions",
+      "preconditions": [
+        {
+          "context": {
+            "expression": "${#stage(\"Run Job (Manifest)\")[\"Status\"].toString() =='SUCCEEDED'}"
+          },
+          "failPipeline": true,
+          "type": "expression"
+        }
+      ],
+      "refId": "3",
+      "requisiteStageRefIds": [
+        "2"
+      ],
+      "type": "checkPreconditions"
     }
   ],
   "triggers": [
     {
-      "attributeConstraints": {},
       "enabled": true,
       "payloadConstraints": {
-        "value": "SUCCESS"
+        "source": "github_kv-053-devops_frontendapp",
+        "status": "SUCCESS"
       },
+      "pubsubSystem": "google",
+      "subscriptionName": "spinnaker-subscription",
       "type": "pubsub"
     }
   ],
-  "updateTs": "1568137794532"
+  "updateTs": "1569513411219"
 }
