@@ -12,7 +12,6 @@ spec:
   selector:
     matchLabels:
       app: frontendapp
-      version: canary
   template:
     metadata:
       labels:
