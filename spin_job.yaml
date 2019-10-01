@@ -12,7 +12,8 @@ spec:
       containers:
         - command:
             - bash
-            - APP_ADDRESS="http://frontendapp.dev.svc:5001";result=$(curl --connect-timeout 10 -s -o /dev/null -w "%{http_code}" ${APP_ADDRESS});if [ $result == "200" ]; then  echo "Connection succeeded!";fi
+            - APP_ADDRESS="http://frontendapp.dev.svc:5001"
+            - result=$(curl --connect-timeout 10 -s -o /dev/null -w "%{http_code}" ${APP_ADDRESS});if [ $result == "200" ]; then  echo "Connection succeeded!";fi
           image: tutum/curl
           name: script
           volumeMounts:
