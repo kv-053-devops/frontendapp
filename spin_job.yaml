@@ -13,6 +13,7 @@ spec:
         - command:
             - bash
             - /opt/script/script.sh
+            - http://frontendapp.dev.svc:5001
           image: tutum/curl
           name: script
           volumeMounts:
