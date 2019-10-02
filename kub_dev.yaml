@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontendapp
+  name: frontendapp-main
   namespace: dev
 spec:
   replicas: 1
@@ -66,6 +66,20 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: frontendapp
+spec:
+  host: frontendapp-main
+  subsets:
+  - name: main
+    labels:
+      version: main
+  - name: canary
+    labels:
+      version: canary
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
