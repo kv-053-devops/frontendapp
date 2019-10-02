@@ -46,7 +46,7 @@ steps:
     - 'PROJECT_ID=$PROJECT_ID'
     - 'SHORT_SHA=$SHORT_SHA'
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp','ready_prod_dev_main.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_prod_main.yaml']
+  args: ['cp','ready_prod_prod_main.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_prod_main.yaml']
   
 # - name: 'comarada/envsubst'
 #   id: Prepare dev enviroment canary
