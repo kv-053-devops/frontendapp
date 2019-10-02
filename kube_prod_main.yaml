@@ -1,0 +1,108 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontendapp-main
+  namespace: prod
+  labels:
+    app: frontendapp
+    version: main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontendapp
+      version: main
+  template:
+    metadata:
+      labels:
+        app: frontendapp
+        version: main
+    spec:
+      hostname: frontendapp
+      containers:
+      - name: frontendapp
+        image: eu.gcr.io/gcpssproject-248014/frontendapp:c399da2
+        ports:
+        - containerPort: 5001
+        env:
+        - name: APP_QUERY_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontendapp-env-vars
+              key: app_query_url
+        - name: APP_SETTINGS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontendapp-env-vars
+              key: app_settings_url
+        - name: APP_SETTINGS_SAVE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontendapp-env-vars
+              key: app_settings_save_url
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontendapp-main
+  labels:
+    app: frontendapp
+    version: main
+  namespace: prod
+spec:
+  ports:
+  - port: 5001
+    targetPort: 5001
+  selector:
+    app: frontendapp
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: frontendapp-gateway
+  namespace: prod
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: frontendapp
+  namespace: prod
+spec:
+  host: frontendapp-main
+  subsets:
+  - name: main
+    labels:
+      version: main
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: frontendapp
+  namespace: prod
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - frontendapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: frontendapp-main.prod.svc.cluster.local
+        subset: main
+        port:
+          number: 5001
