@@ -20,7 +20,7 @@ steps:
 
 - name: 'comarada/envsubst'
   id: Prepare dev enviroment dev
-  args: ['kube_dev_main.yaml']
+  args: ['kube_prod_main.yaml']
   env:
     - 'PROJECT_ID=$PROJECT_ID'
     - 'SHORT_SHA=$SHORT_SHA'
