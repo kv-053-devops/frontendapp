@@ -1,2 +1,2 @@
 # StockApp application
-task  for KV-055.devops  - project ,  using Flask
+task  for KV-055.devops  - project ,  using Flask 
