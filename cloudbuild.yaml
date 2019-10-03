@@ -20,7 +20,7 @@ steps:
 
 - name: 'comarada/envsubst'
   id: Prepare dev enviroment dev
-  args: ['kube_prod_main.yaml']
+  args: ['kube_dev_main.yaml']
   env:
     - 'PROJECT_ID=$PROJECT_ID'
     - 'SHORT_SHA=$SHORT_SHA'
@@ -42,13 +42,13 @@ steps:
   
 - name: 'comarada/envsubst'
   id: Prepare dev enviroment canary
-  args: ['kub_dev_canary.yaml']
+  args: ['kub_dev.yaml']
   env:
     - 'PROJECT_ID=$PROJECT_ID'
     - 'SHORT_SHA=$SHORT_SHA'
     
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp','ready_kub_dev_canary.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_dev_canary.yaml'] 
+  args: ['cp','ready_kub_dev.yaml','gs://$PROJECT_ID-spinnaker-conf/frontendapp/ready_kub_dev.yaml'] 
  
   
 artifacts:
