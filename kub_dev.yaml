@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontendapp-main
+  name: frontendapp
   namespace: dev
 spec:
   replicas: 1
@@ -51,56 +51,4 @@ spec:
     targetPort: 5001
   selector:
     app: frontendapp
----
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: traderapp-gateway
-spec:
-  selector:
-    istio: ingressgateway # use istio default controller
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: frontendapp
-spec:
-  host: frontendapp-main
-  subsets:
-  - name: main
-    labels:
-      version: main
-  - name: canary
-    labels:
-      version: canary
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: traderapp
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - traderapp-gateway
-  http:
-  - match:
-    - uri:
-        prefix: /
-    - uri:
-        prefix: /hello
-#    - uri:
-#        prefix: /settings
-    route:
-    - destination:
-        host: frontendapp
-        #host: frontendapp.dev.svc
-        port:
-          number: 5001
+  type: LoadBalancer
