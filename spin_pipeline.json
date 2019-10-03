@@ -1,38 +1,40 @@
 {
+  "appConfig": {},
   "expectedArtifacts": [
     {
       "defaultArtifact": {
-        "artifactAccount": "gcs-k8s-project-249815",
+        "artifactAccount": "gcs-gcpssproject-248014",
         "id": "2551d0f3-9b4b-4a2f-a4d3-e4285f2c3f86",
-        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/ready_kub_dev_canary.yaml",
-        "reference": "gs://k8s-project-249815-spinnaker-conf/frontendapp/ready_kub_dev_canary.yaml",
+        "name": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/ready_kub_dev_canary.yaml",
+        "reference": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/ready_kub_dev_canary.yaml",
         "type": "gcs/object"
       },
       "displayName": "old-dingo-40",
       "id": "c7f3ee1d-e510-4086-a356-5a73748db20d",
       "matchArtifact": {
-        "artifactAccount": "gcs-k8s-project-249815",
+        "artifactAccount": "gcpssproject-248014",
+        "customKind": false,
         "id": "2c4d7898-9e38-43b1-8c88-95e22be2e091",
-        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/ready_kub_dev_canary.yaml",
-        "type": "gcs/object"
+        "name": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/ready_kub_dev_canary.yaml",
+        "type": "embedded/base64"
       },
       "useDefaultArtifact": true,
       "usePriorArtifact": false
     },
     {
       "defaultArtifact": {
-        "artifactAccount": "gcs-k8s-project-249815",
+        "artifactAccount": "gcs-gcpssproject-248014",
         "id": "49b0301a-1492-4985-a620-88c32914dafd",
-        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/spin_job.yaml",
-        "reference": "gs://k8s-project-249815-spinnaker-conf/frontendapp/spin_job.yaml",
+        "name": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/spin_job.yaml",
+        "reference": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/spin_job.yaml",
         "type": "gcs/object"
       },
       "displayName": "integration-t",
       "id": "3ae07264-9fe7-4769-9179-236e7c4e7bcb",
       "matchArtifact": {
-        "artifactAccount": "gcs-k8s-project-249815",
+        "artifactAccount": "gcs-gcpssproject-248014",
         "id": "2b9db2b2-4d09-4000-b7a8-fd209e9344ad",
-        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/spin_job.yaml",
+        "name": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/spin_job.yaml",
         "type": "gcs/object"
       },
       "useDefaultArtifact": true,
@@ -40,18 +42,18 @@
     },
     {
       "defaultArtifact": {
-        "artifactAccount": "gcs-k8s-project-249815",
+        "artifactAccount": "gcs-gcpssproject-248014",
         "id": "d4d86460-3b40-4257-b335-0fd19d12abe4",
-        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/ready_kub_dev_main.yaml",
-        "reference": "gs://k8s-project-249815-spinnaker-conf/frontendapp/ready_kub_dev_main.yaml",
+        "name": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/ready_kub_dev_main.yaml",
+        "reference": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/ready_kub_dev_main.yaml",
         "type": "gcs/object"
       },
       "displayName": "spotty-wolverine-8",
       "id": "c9315afa-c9a8-4282-8835-b1ce8bd04a7d",
       "matchArtifact": {
-        "artifactAccount": "gcs-k8s-project-249815",
+        "artifactAccount": "gcs-gcpssproject-248014",
         "id": "893cc146-b4ac-4056-b07e-1879ac5121f7",
-        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/ready_kub_dev_main.yaml",
+        "name": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/ready_kub_dev_main.yaml",
         "type": "gcs/object"
       },
       "useDefaultArtifact": true,
@@ -59,18 +61,18 @@
     },
     {
       "defaultArtifact": {
-        "artifactAccount": "gcs-k8s-project-249815",
+        "artifactAccount": "gcs-gcpssproject-248014",
         "id": "42cd6dab-94c3-45ce-9459-921e65292779",
-        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/gateway.yaml",
-        "reference": "gs://k8s-project-249815-spinnaker-conf/frontendapp/gateway.yaml",
+        "name": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/gateway.yaml",
+        "reference": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/gateway.yaml",
         "type": "gcs/object"
       },
       "displayName": "brown-grasshopper-20",
       "id": "c555ef63-6111-4988-b811-32a50d785fc1",
       "matchArtifact": {
-        "artifactAccount": "gcs-k8s-project-249815",
+        "artifactAccount": "gcs-gcpssproject-248014",
         "id": "27b63784-b5eb-428c-82ef-32a0454d9f7e",
-        "name": "gs://k8s-project-249815-spinnaker-conf/frontendapp/gateway.yaml",
+        "name": "gs://gcpssproject-248014-spinnaker-conf/frontendapp/gateway.yaml",
         "type": "gcs/object"
       },
       "useDefaultArtifact": true,
@@ -84,7 +86,7 @@
     {
       "account": "core",
       "cloudProvider": "kubernetes",
-      "manifestArtifactAccount": "gcs-k8s-project-249815",
+      "manifestArtifactAccount": "gcs-gcpssproject-248014",
       "manifestArtifactId": "c7f3ee1d-e510-4086-a356-5a73748db20d",
       "moniker": {
         "app": "frontendapp"
@@ -155,7 +157,7 @@
           }
         }
       },
-      "manifestArtifactAccount": "gcs-k8s-project-249815",
+      "manifestArtifactAccount": "gcs-gcpssproject-248014",
       "manifestArtifactId": "3ae07264-9fe7-4769-9179-236e7c4e7bcb",
       "name": "Run Job (Manifest)",
       "propertyFile": "test-a",
@@ -164,6 +166,7 @@
         "1"
       ],
       "source": "artifact",
+      "stageTimeoutMs": 60000,
       "type": "runJobManifest"
     },
     {
@@ -198,7 +201,7 @@
     {
       "account": "core",
       "cloudProvider": "kubernetes",
-      "manifestArtifactAccount": "gcs-k8s-project-249815",
+      "manifestArtifactAccount": "gcs-gcpssproject-248014",
       "manifestArtifactId": "c9315afa-c9a8-4282-8835-b1ce8bd04a7d",
       "moniker": {
         "app": "frontendapp"
@@ -232,5 +235,5 @@
       "type": "pubsub"
     }
   ],
-  "updateTs": "1569600807634"
+  "updateTs": "1570033970118"
 }
