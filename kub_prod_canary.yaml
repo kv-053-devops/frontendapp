@@ -6,13 +6,12 @@ metadata:
   namespace: prod
   labels:
     app: frontendapp
-    version: canary
+    version: canary 
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: frontendapp
-      version: canary
   template:
     metadata:
       labels:
@@ -22,7 +21,7 @@ spec:
       hostname: frontendapp
       containers:
       - name: frontendapp
-        image: eu.gcr.io/gcpssproject-248014/frontendapp:8498010
+        image: eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA
         ports:
         - containerPort: 5001
         env:
