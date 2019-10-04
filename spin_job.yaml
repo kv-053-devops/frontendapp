@@ -4,7 +4,7 @@ metadata:
   labels:
     app: script-job
   name: test-a
-  namespace: dev
+  namespace: spinnaker
 spec:
   backoffLimit: 2
   template:
