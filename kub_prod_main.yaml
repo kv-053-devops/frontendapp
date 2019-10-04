@@ -2,17 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontendapp-main
+  name:  frontendapp-main
   namespace: prod
   labels:
     app: frontendapp
-    version: main
+    version: main 
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: frontendapp
-      version: main
   template:
     metadata:
       labels:
@@ -22,7 +21,7 @@ spec:
       hostname: frontendapp
       containers:
       - name: frontendapp
-        image: eu.gcr.io/gcpssproject-248014/frontendapp:c399da2
+        image: eu.gcr.io/$PROJECT_ID/frontendapp:$SHORT_SHA
         ports:
         - containerPort: 5001
         env:
