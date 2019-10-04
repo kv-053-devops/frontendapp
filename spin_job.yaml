@@ -18,7 +18,7 @@ spec:
           name: script
           volumeMounts:
             - mountPath: /opt/script
-              name: script-configmap
+              name: script-configmap-dev
               readOnly: false
       restartPolicy: Never
       volumes:
