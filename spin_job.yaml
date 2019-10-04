@@ -13,6 +13,7 @@ spec:
         - command:
             - bash
             - /opt/script/script.sh
+            - http://frontendapp.dev.svc.cluster.local
           image: tutum/curl
           name: script
           volumeMounts:
@@ -22,5 +23,5 @@ spec:
       restartPolicy: Never
       volumes:
         - configMap:
-            name: script-configmap
-          name: script-configmap
+            name: script-configmap-dev
+          name: script-configmap-dev
