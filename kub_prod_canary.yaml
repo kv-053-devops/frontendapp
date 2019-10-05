@@ -45,7 +45,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontendapp-canary
+  name: frontendapp
   labels:
     app: frontendapp
     version: canary
@@ -104,13 +104,13 @@ spec:
         prefix: /
     route:
     - destination:
-        host: frontendapp-main.prod.svc.cluster.local
+        host: frontendapp.prod.svc.cluster.local
         subset: canary
         port:
           number: 5001
       weight: 10
     - destination:
-        host: frontendapp-main.prod.svc.cluster.local
+        host: frontendapp.prod.svc.cluster.local
         subset: main
         port:
           number: 5001
