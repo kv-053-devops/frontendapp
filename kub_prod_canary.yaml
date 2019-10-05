@@ -48,7 +48,6 @@ metadata:
   name: frontendapp
   labels:
     app: frontendapp
-    version: canary
   namespace: prod
 spec:
   ports:
@@ -76,10 +75,10 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: frontendapp-main
+  name: frontendapp
   namespace: prod
 spec:
-  host: frontendapp-main
+  host: frontendapp
   subsets:
   - name: main
     labels:
