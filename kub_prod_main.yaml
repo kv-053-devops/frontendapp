@@ -45,10 +45,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontendapp-main
+  name: frontendapp
   labels:
     app: frontendapp
-    version: main
   namespace: prod
 spec:
   ports:
@@ -79,7 +78,7 @@ metadata:
   name: frontendapp
   namespace: prod
 spec:
-  host: frontendapp-main
+  host: frontendapp
   subsets:
   - name: main
     labels:
@@ -101,7 +100,7 @@ spec:
         prefix: /
     route:
     - destination:
-        host: frontendapp-main.prod.svc.cluster.local
+        host: frontendapp.prod.svc.cluster.local
         subset: main
         port:
           number: 5001
