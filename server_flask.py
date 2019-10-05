@@ -164,7 +164,7 @@ def settings():
 
 @app.route('/hello')
 def hello_world():
-    return 'Task for flask-StockApp-canary'
+    return 'Task for flask-StockApp'
 
 
 @app.route('/api/add', methods=['POST'])
