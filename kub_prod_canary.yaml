@@ -76,7 +76,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: frontendapp
+  name: frontendapp-main
   namespace: prod
 spec:
   host: frontendapp-main
